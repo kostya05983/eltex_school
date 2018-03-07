@@ -24,7 +24,7 @@ public class ManagerOrderJSON extends AManageOrder {
 
     @Override
     public Order readById(UUID id) {
-       Gson gson=new GsonBuilder().create();
+       Gson gson=new Gson();
         String buf;
         Orders order;
         try{
@@ -41,7 +41,7 @@ public class ManagerOrderJSON extends AManageOrder {
 
     @Override
     public void saveById(UUID id, Order order) {
-       Gson gson=new GsonBuilder().create();
+       Gson gson=new Gson();
        String buf;
        File sourceFile=new File(name+".json");
        File outPutFile=new File(name+"b.json");
@@ -68,7 +68,7 @@ public class ManagerOrderJSON extends AManageOrder {
     public Orders readAll() {
 
         Orders orders=new Orders();
-        Gson gson=new GsonBuilder().create();
+        Gson gson=new Gson();
 
         String buf;
         try{
@@ -86,7 +86,7 @@ public class ManagerOrderJSON extends AManageOrder {
 
     @Override
     public void saveAll(Orders orders) {
-        Gson gson=new GsonBuilder().create();
+        Gson gson=new Gson();
 
         try {
             for(int i=0;i<orders.getOrdersList().size();i++) {
@@ -113,15 +113,9 @@ public class ManagerOrderJSON extends AManageOrder {
         }
     }
 
-    public void closeAll(){
-        try {
 
-        bufferedReader.close();
-       } catch (IOException e) {
-           e.printStackTrace();
-        }
 
-    }
+
     @Override
     public void openInput() {
         try {

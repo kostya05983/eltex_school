@@ -6,7 +6,7 @@ public abstract class AManageOrder implements IOrder {
 protected String name;
 
 
-public abstract void closeAll();
+
 
 public abstract void openInput();
 
