@@ -233,7 +233,7 @@ public class Main {
 //        orders=managerOrderFile.readAll();
 //        orders.showOrdersList();
 
-        ManagerOrderJSON managerOrderJSON=new ManagerOrderJSON("src/test");
+        ManagerOrderJSON managerOrderJSON=new ManagerOrderJSON("test");
         managerOrderJSON.saveAll(orders);
         managerOrderJSON.closeOutput();
 
