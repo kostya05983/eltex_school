@@ -11,15 +11,21 @@ repositories {
     mavenCentral()
 }
 
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile 'com.google.code.gson:gson:2.8.2'
 }
 
+jar {
+    archiveName = 'Name.jar'
 
-
-test{
-    useJUnit{
-        includeCategories 'Lab5'
+    manifest {
+        attributes 'Main-Class': 'Main.class',
+                'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' '),
+                'Implementation-Version': project.version
     }
+
+    from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }) {}
 }
+
