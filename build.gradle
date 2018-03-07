@@ -13,19 +13,25 @@ repositories {
 
 
 dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile 'com.google.code.gson:gson:2.8.2'
-}
 
+}
 jar {
-    archiveName = 'Name.jar'
+    archiveName = 'Run.jar'
 
     manifest {
-        attributes 'Main-Class': 'Main.class',
+        attributes 'Main-Class': 'Main',
                 'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' '),
                 'Implementation-Version': project.version
     }
 
     from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }) {}
 }
+task listJars << {
+    configurations.compile.each { File file -> println file.name }
+}
+
+
 
