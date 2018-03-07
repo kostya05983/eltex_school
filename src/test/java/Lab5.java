@@ -69,7 +69,7 @@ public class Lab5 {
 //        orders=managerOrderFile.readAll();
 //        orders.showOrdersList();
 
-        ManagerOrderJSON managerOrderJSON=new ManagerOrderJSON("/home/kostya05983/IdeaProjects/Eltex_School/src/main/resources/test");
+        ManagerOrderJSON managerOrderJSON=new ManagerOrderJSON("src/test");
         managerOrderJSON.saveAll(orders);
         managerOrderJSON.closeOutput();
 
