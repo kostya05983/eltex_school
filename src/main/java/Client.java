@@ -1,23 +1,47 @@
-//import java.net.DatagramPacket;
-//import java.net.DatagramSocket;
-//
-//public class Client {
-//
-//    private final int MESSAGELEN=1024;
-//
-//    public static void main(String[] args) {
-//        String host="LocalHost";
-//
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.*;
+import java.nio.ByteBuffer;
+
+public class Client {
+
+    private static final int MESSAGELEN=1024;
+
+    public static void main(String[] args) {
+        String host="LocalHost";
+
 //        int arg1=15;
 //        int arg2=2;
-//
-//        try{
-//            String portStr=UDP.reciveMessage(Param.portUdp);
-//            port=new Integer(portStr);
-//
-//            System.out.println();
-//        }
-//    }
+
+        byte[] buf=new byte[4];
+        int port;
+        InetAddress ip;
+        try {
+            DatagramSocket ds = new DatagramSocket(Param.portUdp);
+            DatagramPacket dp = new DatagramPacket(buf, buf.length);
+
+                ds.receive(dp);
+
+
+//            System.out.println("Я получил ее");
+            ds.close();
+            Server.fRun=false;
+            port= ByteBuffer.wrap(dp.getData()).getInt(0);
+            ip=dp.getAddress();
+            //Устанавливаем TCP
+            Socket soc=new Socket(ip,port);
+            OutputStream os=soc.getOutputStream();
+            os.write("лол".getBytes());
+            os.close();
+            soc.close();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
+
+    }
 //    public void
 //    public static String reciveMessage(int port){
 //
@@ -34,4 +58,4 @@
 //                return null;
 //            }
 //    }
-//}
+}
