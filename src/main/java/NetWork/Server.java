@@ -1,3 +1,5 @@
+package NetWork;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.*;
@@ -7,28 +9,26 @@ public class Server {
     public static boolean  fRun=true;
     public static void main(String[] args) {
 
-            //System.out.println("Server is running");
+            //System.out.println("NetWork.Server is running");
 
 
-            byte[] ib=new byte[4];//Порт на соединение
+            byte[] ib;//Порт на соединение
             byte[] ob=new byte[256];
             String host="LocalHost";
             ByteBuffer byteBuffer=ByteBuffer.allocate(4);
-            byteBuffer.putInt(Param.portTCP);
+            byteBuffer.putInt(Ports.portTCP.port);
             ib=byteBuffer.array();
 
-            //UDPSender sender=new UDPSender("localhost",portUDP,""+port);
 
             try {
-                DatagramSocket ds = new DatagramSocket();
-                DatagramPacket dp = new DatagramPacket(ib, ib.length, InetAddress.getByName(host), Param.portUdp);
 
-                    ds.send(dp);//Отсылаем внутри пакета порт на соединение
-//                DatagramPacket ip=new DatagramPacket(ob,ob.length);
-//                ds.receive(ip);
+                SenderUDP senderUDP=new SenderUDP();
+                senderUDP.sendMessage(ib,InetAddress.getByName(host),Ports.portUDP.port);
 
-                ds.close();
-                ServerSocket ss=new ServerSocket(Param.portTCP);
+
+
+
+                ServerSocket ss=new ServerSocket(Ports.portTCP.port);
                 Socket soc=ss.accept();//ждем ответа от клиента
                 InputStream is=soc.getInputStream();
                 is.read(ob);
