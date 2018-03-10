@@ -9,6 +9,7 @@ import Goods.Good;
 import Goods.Instruments;
 import Goods.Paints;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.UUID;
@@ -24,11 +25,12 @@ public class GenerateOrders extends Thread{
     public  GenerateOrders(Orders orders){
         this.ordersList=orders.getOrdersList();
     }
+    public GenerateOrders(){
 
+    }
     @Override
     public  void run() {
         Random random=new Random(System.currentTimeMillis());
-        Good data;
         ShoppingCart shoppingCart;
         Order order;
         Credentials credentials;
@@ -36,7 +38,27 @@ public class GenerateOrders extends Thread{
 
         while(isActive) {
             amountGoods=(int)(10*random.nextDouble()+1);
-            shoppingCart=new ShoppingCart();
+            shoppingCart=generateShopCart(amountGoods);
+
+            credentials=new Credentials();
+            credentials.setId(UUID.randomUUID());
+            credentials.setEmail("randomMail"+random.nextInt(10000)+"@imperia");
+            credentials.setName("RandomName"+random.nextInt(10000));
+            credentials.setSurname("RandomSurname"+random.nextInt(10000));
+            credentials.setPatronymic("RandomPatronomyc"+random.nextInt(10000));
+
+            order=new Order();
+            order.shoppingCart=shoppingCart;
+            order.credentials=credentials;
+            ordersList.add(order);
+        }
+        }
+
+        private ShoppingCart generateShopCart(int amountGoods){
+        ShoppingCart shoppingCart=new ShoppingCart();
+        Random random=new Random(System.currentTimeMillis());
+        Good data;
+
             while (amountGoods > 0) {
                 int i = random.nextInt(10000);
                 if (i % 13 == 0) {
@@ -53,6 +75,18 @@ public class GenerateOrders extends Thread{
                 shoppingCart.add(data);
                 amountGoods--;
             }
+            return shoppingCart;
+        }
+
+        public Order getRandomOrder(){
+            Random random=new Random(System.currentTimeMillis());
+            ShoppingCart shoppingCart;
+            Order order;
+            Credentials credentials;
+            int amountGoods;
+
+            amountGoods=(int)(10*random.nextDouble()+1);
+            shoppingCart=generateShopCart(amountGoods);
             credentials=new Credentials();
             credentials.setId(UUID.randomUUID());
             credentials.setEmail("randomMail"+random.nextInt(10000)+"@imperia");
@@ -63,8 +97,9 @@ public class GenerateOrders extends Thread{
             order=new Order();
             order.shoppingCart=shoppingCart;
             order.credentials=credentials;
-            ordersList.add(order);
-        }
+            order.creation=new Date(System.currentTimeMillis());
+
+            return order;
         }
     }
 

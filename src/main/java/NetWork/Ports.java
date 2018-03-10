@@ -2,9 +2,10 @@ package NetWork;
 
 public enum Ports {
 
-     portTCP(5333),
-     portUDP(5334),
-     portUDPNote(5335);
+     portTCP(3333),
+     portUDP(3334),
+    portUDPNote(3335);
+
 
 
     protected int port;

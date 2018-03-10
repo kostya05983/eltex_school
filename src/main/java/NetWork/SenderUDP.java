@@ -1,44 +1,37 @@
 package NetWork;
 
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.io.IOException;
+import java.net.*;
 
-public class SenderUDP extends Thread {
-//    private int port;
-//    private byte[] buf;
-//    private InetAddress inetAddress;
-//
-//
-//    public SenderUDP(byte[] buf,InetAddress inetAddress,int port){
-//        this.buf=buf;
-//        this.inetAddress=inetAddress;
-//        this.port=port;
-//    }
-//
-//    public void start(){
-//        try {
-//            Thread.sleep(1);
-//        }catch (InterruptedException e){
-//            e.printStackTrace();
-//        }
-//    }
+public class SenderUDP  extends Thread{
     DatagramSocket ds;
+    public boolean fRun=true;
+    private byte[] buf;
+    private int port;
+    private String host;
 
-    public SenderUDP(){
+
+    public SenderUDP(byte[] buf,String host,int port){
         try {
             ds=new DatagramSocket();
+            this.buf=buf;
+            this.host=host;
+            this.port=port;
         } catch (SocketException e) {
             e.printStackTrace();
         }
     }
+
     @Override
     public void run() {
         try {
-             ds=new DatagramSocket();
-
-        } catch (SocketException e) {
+            Thread.sleep(10);
+            while(fRun){
+                sendMessage(buf,InetAddress.getByName(host),port);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (UnknownHostException e) {
             e.printStackTrace();
         }
     }
@@ -49,6 +42,24 @@ public class SenderUDP extends Thread {
 
     public void sendMessage(byte[] buf, InetAddress inetAddress,int port){
         DatagramPacket dp=new DatagramPacket(buf,buf.length,inetAddress,port);
+        try {
+            ds.send(dp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public  void sendNotification(){
+        String buf="обработано";
+        try {
+            System.out.println(buf.getBytes().length);
+            DatagramPacket dp=new DatagramPacket(buf.getBytes(),buf.getBytes().length,InetAddress.getByName(host),Ports.portUDPNote.port);
+            ds.send(dp);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

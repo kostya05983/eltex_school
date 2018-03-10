@@ -7,8 +7,8 @@ public class Order implements Serializable {
     public boolean status;
     public ShoppingCart shoppingCart;
     public Credentials credentials;
-    protected Date creation;
-    protected Date waiting;
+    public Date creation;
+    public Date waiting;
 
     public Order(){
         this.status=false;
