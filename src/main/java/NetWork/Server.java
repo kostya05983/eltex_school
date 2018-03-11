@@ -14,7 +14,7 @@ public class Server extends Thread{
     public  boolean fRun=true;
     private static Orders orders=new Orders();
     private SenderUDP senderUDP;
-    private String host="LocalHost";
+    private String host="localHost";
     private int port;
 
     public Server(int port){
@@ -51,7 +51,6 @@ public class Server extends Thread{
                     is.close();
                     soc.close();
                 }
-
                 ss.close();
             } catch (SocketException e) {
                 e.printStackTrace();

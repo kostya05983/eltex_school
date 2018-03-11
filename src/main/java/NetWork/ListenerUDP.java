@@ -15,6 +15,7 @@ public class ListenerUDP extends Thread{
     private Orders orders;
     public boolean fRun=true;
     private  UUID id;
+    private String hostForNote="224.0.0.1";
 
     public ListenerUDP(Orders orders,UUID id){
         this.orders=orders;
@@ -24,7 +25,7 @@ public class ListenerUDP extends Thread{
     public void run(){
         try {
             MulticastSocket socket=new MulticastSocket(Ports.portUDPNote.port);
-            InetAddress group=InetAddress.getByName("224.0.0.1");
+            InetAddress group=InetAddress.getByName(hostForNote);
             socket.joinGroup(group);
             byte [] buf=new byte[36];
 

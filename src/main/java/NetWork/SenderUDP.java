@@ -10,6 +10,7 @@ public class SenderUDP  extends Thread{
     private byte[] buf;
     private int port;
     private String host;
+    private String hostForNote="224.0.0.1";
 
 
     public SenderUDP(String host,int port){
@@ -55,7 +56,7 @@ public class SenderUDP  extends Thread{
 
     public  void sendNotification(UUID id){
         try {
-            DatagramPacket dp=new DatagramPacket( id.toString().getBytes(), id.toString().getBytes().length,InetAddress.getByName("224.0.0.1"),Ports.portUDPNote.port);
+            DatagramPacket dp=new DatagramPacket( id.toString().getBytes(), id.toString().getBytes().length,InetAddress.getByName(hostForNote),Ports.portUDPNote.port);
             ds.send(dp);
         } catch (UnknownHostException e) {
             e.printStackTrace();

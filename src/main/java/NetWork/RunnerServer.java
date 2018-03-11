@@ -2,6 +2,8 @@ package NetWork;
 
 
 
+import java.io.IOException;
+import java.net.*;
 import java.util.LinkedList;
 
 public class RunnerServer extends Thread{
@@ -9,11 +11,29 @@ public class RunnerServer extends Thread{
     private  int amount;
 
 
+
     public RunnerServer(int amount){
         this.amount=amount;
-        for(int i=3336;i<3336+amount;i++){
-            ports.add(new Port(i,true));
-        }
+        int tmpPort=0;
+        
+        Socket soc;
+       while(amount>0){
+           try {
+               soc=new Socket(InetAddress.getByName("LocalHost"),tmpPort);
+               soc.close();
+               ports.add(new Port(tmpPort,true));
+               amount--;
+           } catch (SocketException e) {
+               System.out.println(tmpPort);
+               tmpPort++;
+               continue;
+           } catch (UnknownHostException e) {
+               e.printStackTrace();
+           } catch (IOException e) {
+               e.printStackTrace();
+           }
+
+       }
     }
 
     public void run(){
