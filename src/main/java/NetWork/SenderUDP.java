@@ -10,7 +10,7 @@ public class SenderUDP  extends Thread{
     private byte[] buf;
     private int port;
     private String host;
-    private String hostForNote="224.0.0.1";
+    private final String hostForNote="224.0.0.1";
 
 
     public SenderUDP(String host,int port){

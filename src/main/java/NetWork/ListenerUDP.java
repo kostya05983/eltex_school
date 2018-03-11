@@ -15,7 +15,7 @@ public class ListenerUDP extends Thread{
     private Orders orders;
     public boolean fRun=true;
     private  UUID id;
-    private String hostForNote="224.0.0.1";
+    private final String hostForNote="224.0.0.1";
 
     public ListenerUDP(Orders orders,UUID id){
         this.orders=orders;

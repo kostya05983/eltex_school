@@ -14,7 +14,7 @@ public class Server extends Thread{
     public  boolean fRun=true;
     private static Orders orders=new Orders();
     private SenderUDP senderUDP;
-    private String host="localHost";
+    private final String host="localHost";
     private int port;
 
     public Server(int port){
@@ -47,7 +47,7 @@ public class Server extends Thread{
                     ObjectInputStream objectInputStream = new ObjectInputStream(is);
                     orders.addOrder((Order) objectInputStream.readObject());
 
-                    Thread.sleep(10000);
+                    Thread.sleep(100);
                     is.close();
                     soc.close();
                 }
