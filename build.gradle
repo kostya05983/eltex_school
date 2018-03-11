@@ -18,11 +18,12 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
 
 }
-jar {
-    archiveName = 'Run.jar'
+
+jar{
+    archiveName = 'lab6.jar'
 
     manifest {
-        attributes 'Main-Class': 'Main',
+        attributes 'Main-Class': 'Lab6',
                 'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' '),
                 'Implementation-Version': project.version
     }
