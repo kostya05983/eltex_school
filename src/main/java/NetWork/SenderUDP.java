@@ -2,24 +2,28 @@ package NetWork;
 
 import java.io.IOException;
 import java.net.*;
+import java.util.UUID;
 
 public class SenderUDP  extends Thread{
-    DatagramSocket ds;
+    private DatagramSocket ds;
     public boolean fRun=true;
     private byte[] buf;
     private int port;
     private String host;
 
 
-    public SenderUDP(byte[] buf,String host,int port){
+    public SenderUDP(String host,int port){
         try {
             ds=new DatagramSocket();
-            this.buf=buf;
             this.host=host;
             this.port=port;
         } catch (SocketException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setBuf(byte[] buf) {
+        this.buf = buf;
     }
 
     @Override
@@ -49,11 +53,9 @@ public class SenderUDP  extends Thread{
         }
     }
 
-    public  void sendNotification(){
-        String buf="обработано";
+    public  void sendNotification(UUID id){
         try {
-            System.out.println(buf.getBytes().length);
-            DatagramPacket dp=new DatagramPacket(buf.getBytes(),buf.getBytes().length,InetAddress.getByName(host),Ports.portUDPNote.port);
+            DatagramPacket dp=new DatagramPacket( id.toString().getBytes(), id.toString().getBytes().length,InetAddress.getByName("224.0.0.1"),Ports.portUDPNote.port);
             ds.send(dp);
         } catch (UnknownHostException e) {
             e.printStackTrace();

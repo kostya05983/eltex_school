@@ -11,19 +11,26 @@ import java.net.*;
 import java.nio.ByteBuffer;
 
 public class Server extends Thread{
-    public static boolean fRun=true;
+    public  boolean fRun=true;
     private static Orders orders=new Orders();
-    private static  SenderUDP senderUDP;
-    private static String host="LocalHost";
+    private SenderUDP senderUDP;
+    private String host="LocalHost";
+    private int port;
 
-    public  static void main(String[] args)  {
+    public Server(int port){
+        this.port=port;
+    }
+
+    public  void run()  {
         Orders orders=new Orders();
-        byte[] ib;//Порт на соединение
+
+        byte[] ib;
         ByteBuffer byteBuffer=ByteBuffer.allocate(4);
-        byteBuffer.putInt(Ports.portTCP.port);
+        byteBuffer.putInt(port);
         ib=byteBuffer.array();
 
-        senderUDP=new SenderUDP(ib,host,Ports.portUDP.port);
+        senderUDP=new SenderUDP(host,Ports.portUDP.port);
+        senderUDP.setBuf(ib);
 
         Thread senderth=new Thread(senderUDP);
         senderth.start();
@@ -31,28 +38,34 @@ public class Server extends Thread{
         WaitCheck waitCheck=new WaitCheck(orders,senderUDP);
         Thread thWait=new Thread(waitCheck);
         thWait.start();
+        while(fRun) {
+            try {
+                ServerSocket ss = new ServerSocket(port);
+                Socket soc = ss.accept();
+                if (soc.isConnected()) {
+                    InputStream is = soc.getInputStream();
+                    ObjectInputStream objectInputStream = new ObjectInputStream(is);
+                    orders.addOrder((Order) objectInputStream.readObject());
 
-        try {
-            ServerSocket ss = new ServerSocket(Ports.portTCP.port);
-            while(fRun) {
-                Socket soc = ss.accept();//ждем ответа от клиента
-                InputStream is = soc.getInputStream();
-                ObjectInputStream objectInputStream = new ObjectInputStream(is);
-                orders.addOrder((Order) objectInputStream.readObject());
-                //Проверить
-                is.close();
-                soc.close();
-                System.out.println("Сервер пришел");
+                    Thread.sleep(10000);
+                    is.close();
+                    soc.close();
+                }
+
+                ss.close();
+            } catch (SocketException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            ss.close();
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }catch (IOException e){
-            e.printStackTrace();
-        }catch (ClassNotFoundException e){
-            e.printStackTrace();
         }
     }
+
+
 
 
 

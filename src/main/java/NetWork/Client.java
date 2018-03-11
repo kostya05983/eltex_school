@@ -7,30 +7,33 @@ import CheckingThreads.GenerateOrders;
 import java.io.*;
 import java.net.*;
 import java.nio.ByteBuffer;
+import java.util.UUID;
 
 public class Client extends Thread{
 
-    public static boolean fRun=true;
-   private static Orders orders=new Orders();
+    public  boolean fRun=true;
+    private Orders orders=new Orders();
+    private ListenerUDP listenerUDP;
+    private Thread listenerTh;
 
-    public  static void main(String[] args) {
-        String host="LocalHost";
+    public  void run() {
         byte[] buf=new byte[20];
         int port;
         InetAddress ip;
+        UUID id=UUID.randomUUID();
         GenerateOrders generateOrders=new GenerateOrders();
         Order order;
-        ListenerUDP listenerUDP=new ListenerUDP(orders);
-        Thread thread=new Thread(listenerUDP);
-        thread.start();
+
+        listenerUDP=new ListenerUDP(orders,id);
+        listenerTh=new Thread(listenerUDP);
+        listenerTh.start();
 
         try {
-            DatagramSocket ds = new DatagramSocket(Ports.portUDP.port);
+            MulticastSocket socket=new MulticastSocket(Ports.portUDP.port);
             while(fRun) {
                 Thread.sleep(1000);
                 DatagramPacket dp = new DatagramPacket(buf, buf.length);
-                ds.receive(dp);
-                //Устанавливаем TCP
+                socket.receive(dp);
 
                 port = ByteBuffer.wrap(dp.getData()).getInt(0);
                 ip = dp.getAddress();
@@ -38,14 +41,15 @@ public class Client extends Thread{
 
                     OutputStream os = soc.getOutputStream();
                     ObjectOutputStream objectOutputStream=new ObjectOutputStream(os);
-                    order=generateOrders.getRandomOrder();
+                    order=generateOrders.getRandomOrder(id);
                     orders.addOrder(order);
                     objectOutputStream.writeObject(order);
 
+                Thread.sleep(10);
                 soc.close();
 
             }
-            ds.close();
+            socket.close();
         } catch (SocketException e) {
             e.printStackTrace();
         }catch(IOException e){

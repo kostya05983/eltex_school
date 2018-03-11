@@ -1,18 +1,24 @@
 import NetWork.Client;
-import NetWork.Server;
+import NetWork.RunnerServer;
 
 public class Lab6{
 
     public static void main(String[] args) {
-        Client client=new Client();
-        Thread clientth=new Thread(client);
-        clientth.start();
-        Client client1=new Client();
-        Thread clientth1=new Thread(client1);
-        clientth1.start();
-        Server server=new Server();
-        Thread serverth=new Thread(server);
-        serverth.start();
+
+        RunnerServer runnerServer=new RunnerServer(5);
+        Thread runnerServerth=new Thread(runnerServer);
+        runnerServerth.start();
+
+        Thread[] threads=new Thread[5];
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        for(int i=0;i<5;i++){
+            threads[i]=new Client();
+            threads[i].start();
+        }
 
 
     }

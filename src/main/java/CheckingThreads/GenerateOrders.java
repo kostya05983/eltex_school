@@ -78,7 +78,7 @@ public class GenerateOrders extends Thread{
             return shoppingCart;
         }
 
-        public Order getRandomOrder(){
+        public Order getRandomOrder(UUID id){
             Random random=new Random(System.currentTimeMillis());
             ShoppingCart shoppingCart;
             Order order;
@@ -88,7 +88,7 @@ public class GenerateOrders extends Thread{
             amountGoods=(int)(10*random.nextDouble()+1);
             shoppingCart=generateShopCart(amountGoods);
             credentials=new Credentials();
-            credentials.setId(UUID.randomUUID());
+            credentials.setId(id);
             credentials.setEmail("randomMail"+random.nextInt(10000)+"@imperia");
             credentials.setName("RandomName"+random.nextInt(10000));
             credentials.setSurname("RandomSurname"+random.nextInt(10000));
