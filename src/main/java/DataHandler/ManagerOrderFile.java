@@ -16,27 +16,21 @@ public class ManagerOrderFile extends AManageOrder{
 
     public ManagerOrderFile(String name) {
         this.name=name;
-        try {
 
-            fileOutputStream=new FileOutputStream(name+".txt");
-            objectOutputStream=new ObjectOutputStream(fileOutputStream);
-
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
     }
 
-    public void openInput(){
-        try{
+    public void openInput()throws FileNotFoundException,IOException{
+
             fileInputStream = new FileInputStream(name+".txt");
             objectInputStream=new ObjectInputStream(fileInputStream);
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
+
+    }
+    public void openOutput()throws FileNotFoundException,IOException{
+
+
+            fileOutputStream=new FileOutputStream(name+".txt",true);
+            objectOutputStream=new ObjectOutputStream(fileOutputStream);
+
     }
 
     @Override
@@ -79,7 +73,7 @@ public class ManagerOrderFile extends AManageOrder{
         Orders orders=new Orders();
         try {
             while (fileInputStream.available() > 0)
-                orders.getOrdersList().add(objectInputStream.readObject());
+                orders.getOrdersList().add((Order)objectInputStream.readObject());
         }catch (IOException e){
             e.printStackTrace();
         }catch(ClassNotFoundException e){

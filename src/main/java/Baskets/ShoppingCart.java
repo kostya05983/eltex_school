@@ -1,11 +1,16 @@
 package Baskets;
 
 import Goods.Good;
+import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
 import java.util.UUID;
+
 
 public class ShoppingCart <T extends Good> implements Serializable {
     ArrayList<T> goods=new ArrayList();
@@ -29,12 +34,12 @@ public class ShoppingCart <T extends Good> implements Serializable {
 
 
    public Good search(UUID id){
-       int i=-1;
-       for(UUID uuid:treeSet){
-           i++;
-           if (uuid.equals(id))
+
+       for(int i=0;i<goods.size();i++){
+           System.out.println("я тут");
+           if(goods.get(i).id.equals(id))
                return goods.get(i);
-           }
+       }
 
        return null;
    }
@@ -58,5 +63,10 @@ public class ShoppingCart <T extends Good> implements Serializable {
 
     return stringBuilder.toString();
    }
+
+    public <T> List<T> deserializeList(String json, Type type) {
+        Gson gson = new Gson();
+        return  gson.fromJson(json, type);
+    }
 
 }

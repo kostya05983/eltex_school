@@ -8,7 +8,7 @@ protected String name;
 
 
 
-public abstract void openInput();
+//public abstract void openInput();
 
 public abstract void closeInput();
 

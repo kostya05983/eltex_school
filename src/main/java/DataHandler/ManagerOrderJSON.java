@@ -16,7 +16,7 @@ public class ManagerOrderJSON extends AManageOrder {
     public ManagerOrderJSON(String name) {
         this.name=name;
         try {
-            bufferedWriter=new BufferedWriter(new FileWriter(name+".json"));
+            bufferedWriter=new BufferedWriter(new FileWriter(name+".json",true));
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -116,7 +116,7 @@ public class ManagerOrderJSON extends AManageOrder {
 
 
 
-    @Override
+
     public void openInput() {
         try {
             bufferedReader=new BufferedReader(new FileReader(name+".json"));

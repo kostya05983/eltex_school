@@ -101,5 +101,21 @@ public class GenerateOrders extends Thread{
 
             return order;
         }
+
+        public Good getRandomGood(){
+        Good data;
+        Random random=new Random(System.currentTimeMillis());
+            int i = random.nextInt(10000);
+            if (i % 13 == 0) {
+                data = new BuildingMaterials();
+
+            }
+            if (i % 7 == 0) {
+                data = new Instruments();
+            }
+            data = new Paints();
+
+            return data;
+        }
     }
 

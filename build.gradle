@@ -37,12 +37,16 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
 
 }
-//lol
+
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('com.vaadin:vaadin-spring-boot-starter')
     runtime('org.springframework.boot:spring-boot-devtools')
     testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+dependencies {
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.0'
 }
 
 dependencyManagement {

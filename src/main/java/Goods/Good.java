@@ -25,6 +25,7 @@ public abstract class Good implements ICrudAction,Serializable {
         companyManufacture="Manufacture";
     }
 
+
     public void delete(){
         id=null;
         name=null;
