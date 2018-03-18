@@ -6,6 +6,7 @@ import DataHandler.ManagerOrderFile;
 import DataHandler.ManagerOrderJSON;
 import Goods.BuildingMaterials;
 import Goods.Paints;
+import Spring.Application;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -265,7 +266,8 @@ public class Main {
 ////
 //        orders.showOrdersList();
 
-
+        Application application=new Application();
+        application.main(new String[]{});
 
     }
 }

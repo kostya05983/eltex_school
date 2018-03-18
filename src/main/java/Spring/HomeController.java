@@ -7,7 +7,6 @@ import Baskets.Orders;
 import Baskets.ShoppingCart;
 import CheckingThreads.GenerateOrders;
 import DataHandler.ManagerOrderFile;
-import DataHandler.ManagerOrderJSON;
 import Goods.Good;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
@@ -21,10 +20,10 @@ import java.util.UUID;
 @RestController
 public class HomeController
 {
-    Orders orders=new Orders<>();
-    Logger log= LogManager.getLogger(HomeController.class);
+    private Orders orders=new Orders<>();
+    private  Logger log= LogManager.getLogger(HomeController.class);
 
-    ManagerOrderFile managerOrderFile=new ManagerOrderFile("base");
+    private ManagerOrderFile managerOrderFile=new ManagerOrderFile("base");
 
 
 
@@ -32,25 +31,26 @@ public class HomeController
             params = {"command"},
             method= RequestMethod.GET
     )
-    public String getAll() {
+    public String getAll() throws RequestException {
         try {
             managerOrderFile.openInput();
+            orders=managerOrderFile.readAll();
+
+            log.info("getAll");
+            Gson gson=new Gson();
+            StringBuilder stringBuilder=new StringBuilder();
+
+            for(int i=0;i<orders.getOrdersList().size();i++) {
+                stringBuilder.append(gson.toJson(orders.getOrdersList().get(i)));
+                stringBuilder.append("\n");
+            }
+            managerOrderFile.closeInput();
+            return stringBuilder.toString();
         } catch (IOException e) {
-            new RequestException(2);
+           throw  new RequestException("Файл не найден");
         }
 
-        orders=managerOrderFile.readAll();
 
-        log.info("getAll");
-        Gson gson=new Gson();
-        StringBuilder stringBuilder=new StringBuilder();
-
-        for(int i=0;i<orders.getOrdersList().size();i++) {
-            stringBuilder.append(gson.toJson(orders.getOrdersList().get(i)));
-            stringBuilder.append("\n");
-        }
-        managerOrderFile.closeInput();
-        return stringBuilder.toString();
     }
 
     @RequestMapping(value="/",
@@ -58,52 +58,52 @@ public class HomeController
     method=RequestMethod.GET
     )
     @ResponseBody
-    public String getReadById(@RequestParam("command") String command,@RequestParam("order_id") String id){
-
+    public String getReadById(@RequestParam("command") String command,@RequestParam("order_id") String id) throws RequestException {
         Gson gson=new Gson();
         boolean flag=false;
         if(command.toLowerCase().equals("readbyid")){
             flag=true;
             try {
                 managerOrderFile.openInput();
+                log.info("readbyid");
+                Order order=managerOrderFile.readById(UUID.fromString(id));
+                managerOrderFile.closeInput();
+                if(order!=null)
+                    return gson.toJson(order);
             } catch (IOException e) {
-                new RequestException(2);
+               throw new RequestException("Файл поврежден");
             }
-            log.info("readbyid");
-            Order order=managerOrderFile.readById(UUID.fromString(id));
-           managerOrderFile.closeInput();
-            return gson.toJson(order);
-
         }
-        if(flag==true)
-            new RequestException(1);
-        Good good;
+        if(flag)
+            throw new RequestException("заказ не найден");
 
+
+        Good good;
         if(command.toLowerCase().equals("delbyid")){
             try {
                 managerOrderFile.openInput();
+                log.info("delbyid");
+                orders=managerOrderFile.readAll();
+                managerOrderFile.closeInput();
             } catch (IOException e) {
-                new RequestException(2);
+              throw new RequestException("Файл поврежден");
             }
-            log.info("delbyid");
-            orders=managerOrderFile.readAll();
-            managerOrderFile.closeInput();
             for(int i=0;i<orders.getOrdersList().size();i++) {
                 ShoppingCart shoppingCart=((Order)orders.getOrdersList().get(i)).shoppingCart;
                 good=shoppingCart.search(UUID.fromString(id));
                 if (good!= null) {
                     try {
                         managerOrderFile.openOutput();
+                        ((Order) orders.getOrdersList().get(i)).shoppingCart.delete(good);
+                        managerOrderFile.saveAll(orders);
+                        managerOrderFile.closeOutput();
+                        return "0";
                     } catch (IOException e) {
-                        new RequestException(2);
+                    throw  new RequestException("Файл поврежден");
                     }
-                    ((Order) orders.getOrdersList().get(i)).shoppingCart.delete(good);
-                    managerOrderFile.saveAll(orders);
-                    managerOrderFile.closeOutput();
-                    return "0";
                 }
             }
-            new RequestException(1);
+           throw new RequestException("нет такого заказа");
         }
 
         return "2";
@@ -115,12 +115,12 @@ public class HomeController
             method=RequestMethod.GET
     )
     @ResponseBody
-    public String addToCard(@RequestParam("card_id") String id){
+    public String addToCard(@RequestParam("card_id") String id) throws RequestException {
         log.info("addToCard");
         try {
             managerOrderFile.openInput();
         } catch (IOException e) {
-            new RequestException(2);
+            throw new RequestException("Файл повреждлен");
         }
         Order order=managerOrderFile.readById(UUID.fromString(id));
 
@@ -131,20 +131,20 @@ public class HomeController
         order.shoppingCart.add(good);
         try {
             managerOrderFile.openOutput();
+            managerOrderFile.openInput();
+            managerOrderFile.saveById(UUID.fromString(id),order);
+            managerOrderFile.closeOutput();
+            managerOrderFile.closeInput();
         } catch (IOException e) {
-            new RequestException(2);
+          throw new RequestException("Файл поврежден");
         }
-        managerOrderFile.saveById(UUID.fromString(id),order);
-
-
-        managerOrderFile.closeOutput();
 
         return good.id.toString();
     }
     @RequestMapping(value = "/")
     @ResponseBody
-    public void getMistake(){
-        new RequestException(3);
+    public void getMistake() throws RequestException {
+     throw new RequestException("Неправильная команда");
     }
 
 }

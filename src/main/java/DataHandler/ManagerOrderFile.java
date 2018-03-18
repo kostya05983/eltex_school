@@ -16,20 +16,27 @@ public class ManagerOrderFile extends AManageOrder{
 
     public ManagerOrderFile(String name) {
         this.name=name;
-
     }
 
     public void openInput()throws FileNotFoundException,IOException{
-
             fileInputStream = new FileInputStream(name+".txt");
-            objectInputStream=new ObjectInputStream(fileInputStream);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        objectInputStream=new ObjectInputStream(fileInputStream);
 
     }
     public void openOutput()throws FileNotFoundException,IOException{
-
-
             fileOutputStream=new FileOutputStream(name+".txt",true);
-            objectOutputStream=new ObjectOutputStream(fileOutputStream);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        objectOutputStream=new ObjectOutputStream(fileOutputStream);
 
     }
 
@@ -72,8 +79,9 @@ public class ManagerOrderFile extends AManageOrder{
     public Orders readAll() {
         Orders orders=new Orders();
         try {
-            while (fileInputStream.available() > 0)
-                orders.getOrdersList().add((Order)objectInputStream.readObject());
+            while (fileInputStream.available() >0) {
+                orders.getOrdersList().add(objectInputStream.readObject());
+            }
         }catch (IOException e){
             e.printStackTrace();
         }catch(ClassNotFoundException e){
@@ -85,8 +93,9 @@ public class ManagerOrderFile extends AManageOrder{
     @Override
     public void saveAll(Orders orders) {
         try {
-            for (int i = 0; i < orders.getOrdersList().size(); i++)
+            for (int i = 0; i < orders.getOrdersList().size(); i++) {
                 objectOutputStream.writeObject(orders.getOrdersList().get(i));
+            }
         }catch(IOException e){
             e.printStackTrace();
         }

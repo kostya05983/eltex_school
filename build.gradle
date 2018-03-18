@@ -18,15 +18,18 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
+apply plugin: 'application'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
+mainClassName='Main'
 
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
 }
+
 
 ext {
     vaadinVersion = '8.3.1'
@@ -54,18 +57,31 @@ dependencyManagement {
         mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
     }
 }
-
 jar{
-    archiveName = 'lab6.jar'
+    archiveName = 'lab7.jar'
 
     manifest {
-        attributes 'Main-Class': 'Lab6',
+        attributes 'Main-Class': 'Main',
                 'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' '),
                 'Implementation-Version': project.version
     }
 
     from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }) {}
 }
+
+//jar{
+//    archiveName = 'fillFile.jar'
+//
+//    manifest {
+//        attributes 'Main-Class': 'Main',
+//                'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' '),
+//                'Implementation-Version': project.version
+//    }
+//
+//    from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }) {}
+//}
+
+
 task listJars << {
     configurations.compile.each { File file -> println file.name }
 }
