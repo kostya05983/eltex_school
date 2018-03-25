@@ -1,16 +1,42 @@
 package Goods;
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Random;
 import java.util.UUID;
 
+@Entity
+@Table(name="good")
 public abstract class Good implements ICrudAction,Serializable {
-    public UUID id;
-    protected String name;
-    protected String venderCode;
-    protected String price;
+    @Id
+    @Column(name="id")
+    private UUID id;
+
+    @NotNull
+    @Column(name="name")
+    String name;
+
+    @NotNull
+    @Column(name="venderCode")
+    String venderCode;
+
+    @NotNull
+    @Column(name="price")
+    String price;
+
+    @NotNull
+    @Column(name="count")
     public static int count=0;
-    protected String companyManufacture;
+
+    @NotNull
+    @Column(name="companyManufacture")
+    String companyManufacture;
 
     public Good(){
         create();
@@ -26,6 +52,7 @@ public abstract class Good implements ICrudAction,Serializable {
     }
 
 
+
     public void delete(){
         id=null;
         name=null;
@@ -33,5 +60,13 @@ public abstract class Good implements ICrudAction,Serializable {
         price=null;
         count--;
         companyManufacture=null;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 }

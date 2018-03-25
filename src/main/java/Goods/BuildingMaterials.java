@@ -10,7 +10,7 @@ public class BuildingMaterials extends Good {
 
     @Override
     public void read() {
-        System.out.println("id товара "+this.id+" Название строительного материала: "+this.name+"Артикул: "+this.venderCode+" Цена: "
+        System.out.println("id товара "+this.getId()+" Название строительного материала: "+this.name+"Артикул: "+this.venderCode+" Цена: "
                 + this.price+" Колличество товаров: "+this.count+" компания производитель "+this.companyManufacture);
     }
 
@@ -35,7 +35,7 @@ public class BuildingMaterials extends Good {
     }
 
     public String toString(){
-        return "id товара "+this.id+" Название строительного материала: "+this.name+"Артикул: "+this.venderCode+" Цена: "
+        return "id товара "+this.getId()+" Название строительного материала: "+this.name+"Артикул: "+this.venderCode+" Цена: "
                 + this.price+" Колличество товаров: "+this.count+" компания производитель "+this.companyManufacture;
     }
 

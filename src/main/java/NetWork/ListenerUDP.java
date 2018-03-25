@@ -34,7 +34,7 @@ public class ListenerUDP extends Thread{
                 socket.receive(datagramPacket);
                 if(id.toString().equals(new String(datagramPacket.getData()))) {
                     Order order = (Order) orders.getOrdersList().get(0);
-                    order.waiting = new Date(System.currentTimeMillis());
+                    order.setWaiting(new Date(System.currentTimeMillis()));
                     System.out.println(order);
                     orders.getOrdersList().remove(0);
                 }

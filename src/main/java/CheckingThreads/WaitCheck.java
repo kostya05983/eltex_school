@@ -38,10 +38,10 @@ public class WaitCheck extends ACheck {
                 Thread.sleep((long)(10000*rn.nextDouble()));
 
             for (int i = 0; i <ordersList.size();i++)
-                if(!ordersList.get(i).status) {
-                    ordersList.get(i).status = true;
+                if(!ordersList.get(i).isStatus()) {
+                    ordersList.get(i).setStatus(true);
                     Thread.sleep(100);
-                    senderUDP.sendNotification(ordersList.get(i).credentials.getId());
+                    senderUDP.sendNotification(ordersList.get(i).getCredentials().getId());
                 }
             }catch (InterruptedException e){
                 e.printStackTrace();

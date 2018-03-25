@@ -31,8 +31,8 @@ public class FillFile {
 
 
         Order order=new Order();
-        order.credentials=credentials;
-        order.shoppingCart=shoppingCart;
+        order.setCredentials(credentials);
+        order.setShoppingCart(shoppingCart);
         orders.addOrder(order);
         orders.makeDeal(order);
 
@@ -53,8 +53,8 @@ public class FillFile {
         //System.out.println(((Good)shoppingCart1.goods.get(0)).id);
 
         Order order1=new Order();
-        order1.credentials=credentialsDart;
-        order1.shoppingCart=shoppingCart1;
+        order1.setCredentials(credentialsDart);
+        order1.setShoppingCart(shoppingCart1);
         orders.addOrder(order1);
         orders.makeDeal(order1);
 

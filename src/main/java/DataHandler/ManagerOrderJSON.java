@@ -30,7 +30,7 @@ public class ManagerOrderJSON extends AManageOrder {
         try{
            while(bufferedReader.ready()){
                buf=bufferedReader.readLine();
-               if(gson.fromJson(buf, Order.class).credentials.getId().equals(id))
+               if(gson.fromJson(buf, Order.class).getCredentials().getId().equals(id))
                    return gson.fromJson(buf, Order.class);
            }
         }catch (IOException e){
@@ -49,7 +49,7 @@ public class ManagerOrderJSON extends AManageOrder {
             bufferedWriter=new BufferedWriter(new FileWriter(outPutFile));
        while(bufferedReader.ready()){
            buf=bufferedReader.readLine();
-           if(gson.fromJson(buf, Order.class).credentials.getId().equals(id)){
+           if(gson.fromJson(buf, Order.class).getCredentials().getId().equals(id)){
                bufferedWriter.write(gson.toJson(order));
                bufferedWriter.newLine();
            }else {

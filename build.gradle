@@ -42,8 +42,13 @@ dependencies {
 }
 
 dependencies {
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.15.Final'
+    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.2.15.Final'
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('com.vaadin:vaadin-spring-boot-starter')
+    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+    runtime('mysql:mysql-connector-java')
     runtime('org.springframework.boot:spring-boot-devtools')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
@@ -69,17 +74,7 @@ jar{
     from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }) {}
 }
 
-//jar{
-//    archiveName = 'fillFile.jar'
-//
-//    manifest {
-//        attributes 'Main-Class': 'Main',
-//                'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' '),
-//                'Implementation-Version': project.version
-//    }
-//
-//    from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }) {}
-//}
+
 
 
 task listJars << {

@@ -4,6 +4,9 @@ import Goods.Good;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -13,18 +16,22 @@ import java.util.UUID;
 
 
 public class ShoppingCart <T extends Good> implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL,
+    fetch = FetchType.LAZY,
+    mappedBy = "shoppingCart")
     ArrayList<T> goods=new ArrayList();
     TreeSet<UUID> treeSet=new TreeSet<>();
 
 
+
    public void add(T good){
        goods.add(good);
-       treeSet.add(good.id);
+       treeSet.add(good.getId());
    }
 
    public void add(int index,T good){
        goods.add(index,good);
-       treeSet.add(good.id);
+       treeSet.add(good.getId());
    }
 
    public  void delete(T o){
@@ -37,7 +44,7 @@ public class ShoppingCart <T extends Good> implements Serializable {
 
        for(int i=0;i<goods.size();i++){
            System.out.println("я тут");
-           if(goods.get(i).id.equals(id))
+           if(goods.get(i).getId().equals(id))
                return goods.get(i);
        }
 

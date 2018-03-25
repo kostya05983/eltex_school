@@ -6,7 +6,7 @@ import DataHandler.ManagerOrderFile;
 import DataHandler.ManagerOrderJSON;
 import Goods.BuildingMaterials;
 import Goods.Paints;
-import Spring.Application;
+//import Spring.Application;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -193,8 +193,8 @@ public class Main {
 
 
         Order order=new Order();
-        order.credentials=credentials;
-        order.shoppingCart=shoppingCart;
+        order.setCredentials(credentials);
+        order.setShoppingCart(shoppingCart);
         orders.addOrder(order);
         orders.makeDeal(order);
 
@@ -215,8 +215,8 @@ public class Main {
         shoppingCart1.add(new Paints());
 
         Order order1=new Order();
-        order1.credentials=credentialsDart;
-        order1.shoppingCart=shoppingCart;
+        order1.setCredentials(credentialsDart);
+        order1.setShoppingCart(shoppingCart);
         orders.addOrder(order1);
         orders.makeDeal(order1);
 
@@ -266,8 +266,8 @@ public class Main {
 ////
 //        orders.showOrdersList();
 
-        Application application=new Application();
-        application.main(new String[]{});
+//        Application application=new Application();
+//        application.main(new String[]{});
 
     }
 }

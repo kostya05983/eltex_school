@@ -48,8 +48,8 @@ public class GenerateOrders extends Thread{
             credentials.setPatronymic("RandomPatronomyc"+random.nextInt(10000));
 
             order=new Order();
-            order.shoppingCart=shoppingCart;
-            order.credentials=credentials;
+            order.setShoppingCart(shoppingCart);
+            order.setCredentials(credentials);
             ordersList.add(order);
         }
         }
@@ -95,9 +95,9 @@ public class GenerateOrders extends Thread{
             credentials.setPatronymic("RandomPatronomyc"+random.nextInt(10000));
 
             order=new Order();
-            order.shoppingCart=shoppingCart;
-            order.credentials=credentials;
-            order.creation=new Date(System.currentTimeMillis());
+            order.setShoppingCart(shoppingCart);
+            order.setCredentials(credentials);
+            order.setCreation(new Date(System.currentTimeMillis()));
 
             return order;
         }

@@ -29,7 +29,7 @@ private LinkedList<Order> ordersList;
                 Thread.sleep((long)(100000*rn.nextDouble()));
 
             for(int i=0;i<ordersList.size();i++)
-                if(ordersList.get(i).status)
+                if(ordersList.get(i).isStatus())
                 ordersList.remove(i);
             }catch (InterruptedException e){
                 e.printStackTrace();

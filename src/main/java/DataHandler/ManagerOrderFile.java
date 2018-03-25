@@ -46,7 +46,7 @@ public class ManagerOrderFile extends AManageOrder{
         try {
             while (fileInputStream.available()>0) {
                 order = (Order)objectInputStream.readObject();
-                if(order.credentials.getId().equals(id))
+                if(order.getCredentials().getId().equals(id))
                     return order;
             }
         }catch(ClassNotFoundException e){
@@ -63,7 +63,7 @@ public class ManagerOrderFile extends AManageOrder{
         try {
             while (fileInputStream.available()>0){
                 buf = (Order) objectInputStream.readObject();
-                if(buf.credentials.getId().equals(id)) {
+                if(buf.getCredentials().getId().equals(id)) {
                     objectOutputStream.writeObject(order);
                     return;
                 }
