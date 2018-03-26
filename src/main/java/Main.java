@@ -1,6 +1,11 @@
 //import Application;
 
 
+import Spring.Application;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -256,8 +261,8 @@ public class Main {
 ////
 //        orders.showOrdersList();
 
-//        Application application=new Application();
-//        application.main(new String[]{});
+        Application application=new Application();
+        application.main(new String[]{});
 
     }
 }
