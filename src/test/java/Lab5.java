@@ -26,8 +26,8 @@ public class Lab5 {
 
 
         Order order=new Order();
-        order.credentials=credentials;
-        order.shoppingCart=shoppingCart;
+        order.setCredentials(credentials);
+        order.setShoppingCart(shoppingCart);
         orders.addOrder(order);
         orders.makeDeal(order);
 
@@ -47,8 +47,8 @@ public class Lab5 {
         shoppingCart1.add(new Paints());
 
         Order order1=new Order();
-        order1.credentials=credentialsDart;
-        order1.shoppingCart=shoppingCart;
+        order1.setCredentials(credentialsDart);
+        order1.setShoppingCart(shoppingCart);
         orders.addOrder(order1);
         orders.makeDeal(order1);
 

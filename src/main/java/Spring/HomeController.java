@@ -89,12 +89,12 @@
 //              throw new RequestException("Файл поврежден");
 //            }
 //            for(int i=0;i<orders.getOrdersList().size();i++) {
-//                ShoppingCart shoppingCart=((Order)orders.getOrdersList().get(i)).shoppingCart;
+//                ShoppingCart shoppingCart=((Order)orders.getOrdersList().get(i)).getShoppingCart();
 //                good=shoppingCart.search(UUID.fromString(id));
 //                if (good!= null) {
 //                    try {
 //                        managerOrderFile.openOutput();
-//                        ((Order) orders.getOrdersList().get(i)).shoppingCart.delete(good);
+//                        ((Order) orders.getOrdersList().get(i)).getShoppingCart().delete(good);
 //                        managerOrderFile.saveAll(orders);
 //                        managerOrderFile.closeOutput();
 //                        return "0";
@@ -128,7 +128,7 @@
 //        GenerateOrders generateOrders=new GenerateOrders();
 //        Good good=generateOrders.getRandomGood();
 //
-//        order.shoppingCart.add(good);
+//        order.getShoppingCart().add(good);
 //        try {
 //            managerOrderFile.openOutput();
 //            managerOrderFile.openInput();
@@ -139,7 +139,7 @@
 //          throw new RequestException("Файл поврежден");
 //        }
 //
-//        return good.id.toString();
+//        return good.getId().toString();
 //    }
 //    @RequestMapping(value = "/")
 //    @ResponseBody

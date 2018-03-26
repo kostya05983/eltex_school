@@ -12,20 +12,15 @@ import java.util.Random;
 @Entity
 @Table(name="Orders")
 public class Orders <T extends Order> implements Serializable{
-
     @Id
-    @Column(name="ordersList")
+    private final int id=0;
+
+    @Column(name="orderList",columnDefinition = "LONGTEXT")
     private LinkedList<Order> ordersList=new LinkedList();
+    @Column(name="linkedHashMap",columnDefinition = "LONGTEXT")
     private LinkedHashMap<Date, Credentials> linkedHashMap=new LinkedHashMap();
 
 
-    public void setOrdersList(LinkedList<Order> ordersList) {
-        this.ordersList = ordersList;
-    }
-
-    public LinkedList<Order> getOrdersList() {
-        return ordersList;
-    }
 
     public void makeDeal(Order order){
         Random rn=new Random(System.currentTimeMillis());
@@ -69,5 +64,13 @@ public class Orders <T extends Order> implements Serializable{
             show+="Время оформления:"+order.getCreation()+" Время ожидания:"+order.getWaiting()+" Статус заказа:"+buf+"\n"+order.getShoppingCart().toString()+" \n";
         }
         System.out.println(show);
+    }
+
+    public void setOrdersList(LinkedList<Order> ordersList) {
+        this.ordersList = ordersList;
+    }
+
+    public LinkedList<Order> getOrdersList() {
+        return ordersList;
     }
 }
