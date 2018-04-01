@@ -1,0 +1,85 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.0.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+
+
+group 'Eltex_School'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+mainClassName='Spring.Application'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+
+ext {
+    vaadinVersion = '8.3.1'
+}
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile 'com.google.code.gson:gson:2.8.2'
+
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.15.Final'
+    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.2.15.Final'
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('com.vaadin:vaadin-spring-boot-starter')
+    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+    runtime('mysql:mysql-connector-java')
+    runtime('org.springframework.boot:spring-boot-devtools')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+dependencies {
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.0'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
+    }
+}
+jar{
+    archiveName = 'lab8.jar'
+
+    manifest {
+        attributes 'Main-Class': 'Spring.Application',
+                'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' '),
+                'Implementation-Version': project.version
+    }
+
+    from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }) {}
+}
+
+
+
+
+task listJars << {
+    configurations.compile.each { File file -> println file.name }
+}
+
+
+
